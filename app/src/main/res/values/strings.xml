@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<resources>
+    <string name="app_name" translatable="false">MasterAuth</string>
+    <string name="codes_list_enter_key">Adding a key</string>
+    <string name="codes_list_key">Key</string>
+    <string name="codes_list_label">Label</string>
+</resources>
