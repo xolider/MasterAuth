@@ -3,11 +3,11 @@ package dev.vicart.masterauth.ui.screen
 import android.widget.Toast
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -47,7 +47,11 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import dev.vicart.masterauth.R
+import dev.vicart.masterauth.activity.MainActivity
+import dev.vicart.masterauth.model.AddKeyRequest
 import dev.vicart.masterauth.model.OTPCode
+import dev.vicart.masterauth.ui.component.dialog.ConfirmDeleteCodeDialog
+import dev.vicart.masterauth.ui.component.dialog.ConfirmKeyAddDialog
 import dev.vicart.masterauth.ui.component.sheet.AddKeyBottomSheet
 import dev.vicart.masterauth.ui.composable.LocalNavController
 import dev.vicart.masterauth.ui.viewmodel.CodesListViewModel
@@ -66,16 +70,55 @@ fun CodesListScreenContent(
         floatingActionButton = { AddFab(vm) }
     ) {
         val otpCodes by vm.otpCodes.observeAsState(emptyList())
-        val clipboardManager = LocalClipboardManager.current
-        val context = LocalContext.current
-        LazyColumn(
-            modifier = Modifier.fillMaxWidth().padding(it).padding(16.dp)
-        ) {
-            items(items = otpCodes) {
-                val code by it.collectAsStateWithLifecycle(null)
-                if(code != null) {
-                    CodeItem(code!!)
+        if(otpCodes.isNotEmpty()) {
+            LazyColumn(
+                modifier = Modifier.fillMaxWidth().padding(it).padding(16.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                items(items = otpCodes) {
+                    val code by it.collectAsStateWithLifecycle(null)
+                    if(code != null) {
+                        CodeItem(code!!) {
+                            vm.removeKey(code!!.uid)
+                        }
+                    }
                 }
+            }
+        } else {
+            EmptyItem(
+                modifier = Modifier.fillMaxSize().padding(it).padding(16.dp)
+            )
+        }
+    }
+    RequestForAddingKeyIfNeeded(vm)
+}
+
+@Composable
+private fun EmptyItem(
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier
+    ) {
+
+    }
+}
+
+@Composable
+private fun RequestForAddingKeyIfNeeded(
+    vm: CodesListViewModel
+) {
+    val activity = LocalContext.current as MainActivity
+    val data = remember(activity) { activity.intent.data }
+    if(data != null) {
+        val request = remember(data) { AddKeyRequest.fromUri(data) }
+        if(request != null) {
+            ConfirmKeyAddDialog(request) {
+                vm.addRawKey(request)
+            }
+        } else {
+            LaunchedEffect(activity) {
+                activity.finish()
             }
         }
     }
@@ -84,7 +127,8 @@ fun CodesListScreenContent(
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun CodeItem(
-    code: OTPCode
+    code: OTPCode,
+    onDelete: () -> Unit
 ) {
     val clipboardManager = LocalClipboardManager.current
     val context = LocalContext.current
@@ -102,7 +146,11 @@ private fun CodeItem(
         )
     ) {
         Text(
-            text = code!!.label,
+            text = code.issuer,
+            style = MaterialTheme.typography.titleLarge
+        )
+        Text(
+            text = code.accountName,
             style = MaterialTheme.typography.titleMedium
         )
         Row(
@@ -111,7 +159,10 @@ private fun CodeItem(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = code.code,
+                text = with(code.code) {
+                    val mid = this.length/2
+                    "${substring(0, mid)} ${substring(mid)}"
+                },
                 style = MaterialTheme.typography.headlineLarge,
                 color = MaterialTheme.colorScheme.secondary
             )
@@ -125,15 +176,26 @@ private fun CodeItem(
                 }
             }
         }
-        HorizontalDivider()
+        HorizontalDivider(
+            modifier = Modifier.padding(top = 8.dp)
+        )
+    }
+    var deleteCodeDialog by remember { mutableStateOf(false) }
+    if(deleteCodeDialog) {
+        ConfirmDeleteCodeDialog(
+            onDismissRequest = { deleteCodeDialog = false },
+            onConfirm = {
+                onDelete()
+            }
+        )
     }
     DropdownMenu(
         expanded = menuShown,
         onDismissRequest = { menuShown = false }
     ) {
         DropdownMenuItem(
-            text = { Text("Supprimer") },
-            onClick = {},
+            text = { Text(stringResource(R.string.codes_list_delete)) },
+            onClick = { deleteCodeDialog = true },
             leadingIcon = { Icon(Icons.Default.Delete, null) },
             colors = MenuItemColors(
                 textColor = MaterialTheme.colorScheme.error,

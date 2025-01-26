@@ -1,9 +1,11 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.serialization)
-    alias(libs.plugins.kotlin.kapt)
+    alias(libs.plugins.kotlin.ksp)
 }
 
 dependencies {
@@ -25,12 +27,9 @@ dependencies {
     implementation(libs.kotp)
     implementation(libs.security.crypto)
     implementation(libs.room)
-    kapt(libs.room.compiler)
+    ksp(libs.room.compiler)
     implementation(libs.sqlcipher)
-}
-
-kotlin {
-    jvmToolchain(21)
+    implementation(libs.common.codecs)
 }
 
 android {
@@ -38,10 +37,10 @@ android {
     compileSdk = 35
     defaultConfig {
         targetSdk = 35
-        minSdk = 29
+        minSdk = 26
         applicationId = "dev.vicart.masterauth"
-        versionCode = 1
-        versionName = "1.0.0"
+        versionCode = 5
+        versionName = "1.0.2"
     }
 
     compileOptions {
@@ -53,6 +52,17 @@ android {
         compose = true
     }
 
+    signingConfigs {
+        create("release") {
+            with(Properties().apply { load(rootProject.file("local.properties").reader()) }) {
+                storeFile = file(getProperty("keystore.path"))
+                storePassword = getProperty("keystore.password")
+                keyAlias = getProperty("keystore.alias")
+                keyPassword = getProperty("keystore.password")
+            }
+        }
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = true
@@ -61,7 +71,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            signingConfig = signingConfigs.getByName("debug")
+            signingConfig = signingConfigs.getByName("release")
         }
     }
 }

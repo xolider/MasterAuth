@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <resources>
-    <style name="MasterAuth.AppTheme" parent="Theme.Material3.DayNight">
-
+    <style name="MasterAuth.AppTheme" parent="Theme.Material3.DynamicColors.DayNight">
     </style>
 </resources>

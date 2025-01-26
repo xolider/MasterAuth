@@ -6,6 +6,7 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navDeepLink
 import dev.vicart.masterauth.ui.composable.LocalNavController
 import dev.vicart.masterauth.ui.screen.AddKeyScreen
 import dev.vicart.masterauth.ui.screen.AddKeyScreenContent

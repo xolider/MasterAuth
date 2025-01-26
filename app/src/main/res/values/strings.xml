@@ -2,6 +2,24 @@
 <resources>
     <string name="app_name" translatable="false">MasterAuth</string>
     <string name="codes_list_enter_key">Adding a key</string>
-    <string name="codes_list_key">Key</string>
-    <string name="codes_list_label">Label</string>
+    <string name="codes_list_add_by_qr">Import by QR code</string>
+    <string name="codes_list_code_copied">Code copied into clipboard</string>
+    <string name="codes_list_delete">Delete</string>
+
+    <string name="add_key_issuer">Issuer</string>
+    <string name="add_key_account_name">Account name</string>
+    <string name="add_key_key">Private key</string>
+    <string name="add_key_code_length">Number of digits</string>
+    <string name="add_key_code_exp">Code expiration (in seconds)</string>
+    <string name="add_key_algorithm">Algorithm</string>
+    <string name="add_key_show_advanced_options">Show advanced options</string>
+    <string name="add_key_hide_advanced_options">Hide advanced options</string>
+    <string name="add_key_tip"><i>Note</i>: if unsure, please keep default options</string>
+
+    <string name="confirm_key_add_text_with_issuer">Do you want to add the key for account %s from issuer %s ?</string>
+    <string name="confirm_key_add_text_without_issuer">Do you want to add the key for account %s ?</string>
+    <string name="confirm_key_add_title">Adding a key</string>
+
+    <string name="confirm_delete_code_title">Delete OTP code</string>
+    <string name="confirm_delete_code_text">This will delete the secret key for this account and issuer. This cannot be undone and your key cannot be recovered</string>
 </resources>

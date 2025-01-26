@@ -7,10 +7,12 @@ material = "1.12.0"
 kotlinx-json = "1.8.0"
 gms-code-scanner = "16.1.0"
 coroutines-gms = "1.9.0"
-kotp = "1.0.2"
+kotp = "1.0.3"
 security-crypto = "1.0.0"
 room = "2.6.1"
 sqlcipher = "4.6.1"
+ksp = "2.1.0-1.0.29"
+common-codecs = "1.17.2"
 
 [libraries]
 compose-bom = { module = "androidx.compose:compose-bom", version.ref = "compose-bom" }
@@ -30,10 +32,11 @@ room = { module = "androidx.room:room-ktx", version.ref = "room" }
 room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 sqlcipher = { module = "net.zetetic:sqlcipher-android", version.ref = "sqlcipher" }
 runtime-livedata = { module = "androidx.compose.runtime:runtime-livedata" }
+common-codecs = { module = "commons-codec:commons-codec", version.ref = "common-codecs" }
 
 [plugins]
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
-kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
+kotlin-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }

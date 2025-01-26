@@ -5,14 +5,8 @@ import dev.vicart.masterauth.data.entity.OTPKey
 import dev.vicart.masterauth.model.OTPCode
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.conflate
-import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapLatest
-import kotlinx.coroutines.flow.merge
-import kotlinx.coroutines.flow.toList
-import kotlinx.coroutines.flow.transformLatest
 import java.time.Duration
 import java.time.Instant
 
@@ -24,14 +18,16 @@ object OTPCodesRepository {
     }
 
     private fun generateCodeForKey(key: OTPKey, nextEmit: Long) : OTPCode {
-        val generator = TOTPGenerator(periodSecond = key.period)
+        val generator = TOTPGenerator(periodSecond = key.period, codeLength = key.codeLength, algorithm = key.algorithm)
         val code = generator.generateCode(key.key)
 
         return OTPCode(
-            label = key.label,
+            issuer = key.issuer,
             code = code,
             nextEmit = nextEmit,
-            period = key.period
+            period = key.period,
+            accountName = key.accountName,
+            uid = key.uid!!
         )
     }
 

@@ -9,7 +9,9 @@ import androidx.compose.material3.Slider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import dev.vicart.masterauth.R
 
 @Composable
 fun CodeLengthSlider(
@@ -20,7 +22,7 @@ fun CodeLengthSlider(
         verticalArrangement = Arrangement.spacedBy(4.dp)
     ) {
         Text(
-            text = "Code length",
+            text = stringResource(R.string.add_key_code_length),
             style = MaterialTheme.typography.titleMedium
         )
         Slider(

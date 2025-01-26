@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<resources>
+    <string name="codes_list_enter_key">Ajouter une clé</string>
+    <string name="codes_list_add_by_qr">Importer avec un QR code</string>
+    <string name="codes_list_code_copied">Code copié dans le presse-papier</string>
+    <string name="codes_list_delete">Supprimer</string>
+
+    <string name="add_key_issuer">Nom du service</string>
+    <string name="add_key_account_name">Identifiant du compte</string>
+    <string name="add_key_key">Clé privée</string>
+    <string name="add_key_code_length">Nombre de chiffres</string>
+    <string name="add_key_code_exp">Expiration du code (en secondes)</string>
+    <string name="add_key_algorithm">Algoritme</string>
+    <string name="add_key_show_advanced_options">Voir les options avancées</string>
+    <string name="add_key_hide_advanced_options">Cacher les options avancées</string>
+    <string name="add_key_tip">Note: si vous n\'êtes pas sûr, laissez les options par défaut</string>
+
+    <string name="confirm_key_add_text_with_issuer">Voulez-vous ajouter la clé pour le compte %s du service %s ?</string>
+    <string name="confirm_key_add_text_without_issuer">Voulez-vous ajouter la clé pour le compte %s ?</string>
+    <string name="confirm_key_add_title">Ajouter une clé</string>
+
+    <string name="confirm_delete_code_title">Supprimer le code OTP</string>
+    <string name="confirm_delete_code_text">Vous allez supprimer la clé privée pour ce compte et ce fournisseur. Cela ne peut pas être annulé et votre clé ne pourra pas être récupérée</string>
+</resources>
